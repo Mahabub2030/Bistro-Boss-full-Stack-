@@ -42,15 +42,15 @@ async function run() {
       // insert email if user donest existe
       // you can do this may ways(1. email uniquse,2.upsert 3.simple checking)
 
-      const query = { email: user.email }
-      const existingUser = await userCollection.findOne(query)
+      const query = { email: user.email };
+       const existingUser = await userCollection.findOne(query);
       if (existingUser) {
-        return res.send({message:'user alrady existe', inserteId: null})
+        return res.send({ message: "user alrady existe", inserteId: null });
       }
 
-      const result = await userCollection.insertOne(user);
-      res.send(result)
-    })
+       const result = await userCollection.insertOne(user);
+       res.send(result);
+    });
 
     app.patch('/users/admin/:id', async (req, res) => {
       const id = req.params.id;
@@ -66,15 +66,12 @@ async function run() {
 
 
 
-    app.delete('/users/:id', async (req, res) => {
+    app.delete("/users/:id", async (req, res) => {
       const id = req.params.id;
-      const query = { _id: new ObjectId(id) }
-      const result = await userCollection.deleteOne(query)
-      res.send(result)
-    })
-
-
-
+      const query = { _id: new ObjectId(id) };
+      const result = await userCollection.deleteOne(query);
+      res.send(result);
+    });
 
 
 // meune reletd api
