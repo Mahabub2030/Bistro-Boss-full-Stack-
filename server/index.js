@@ -40,9 +40,29 @@ async function run() {
       res.send({token})
     })
 
+    // meddleares
+    const verifyToken = (req, res, next) => {
+      console.log('indie veryfiy tokken', req.headers);
+
+      if (!req.headers.authorization) {
+        return res.status(401).send({message:'fobidden access'})
+      }
+      const token = req.headers.authorization.split(' ')[1]
+      jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+        if (err) {
+          return res.status(401).send({message:'forbidden'})
+        }
+        req.decoded = decoded;
+        next()
+    
+     });
+      
+    }
+
 
     //  users releted api
-    app.get('/users', async (req, res) => {
+    app.get('/users', verifyToken, async (req, res) => {
+     
       const result = await userCollection.find().toArray();
       res.send(result)
     })
