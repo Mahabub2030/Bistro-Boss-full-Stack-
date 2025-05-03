@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const jwt = require('jsonwebtoken')
 require('dotenv').config()
 const port = process.env.PORT || 5000;
 
@@ -29,6 +30,15 @@ async function run() {
     const menuCollection = client.db("Birstodb").collection("menu");
     const reviewCollection = client.db("Birstodb").collection("reviews");
     const cartCollection = client.db("Birstodb").collection("cart");
+
+    //  jwt reletd api
+    app.post('/jwt', async (req, res) => {
+      const user = req.body;
+      const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn:'365 days'
+      });
+      res.send({token})
+    })
 
 
     //  users releted api
