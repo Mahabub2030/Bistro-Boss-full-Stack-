@@ -25,9 +25,28 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
+    const userCollection = client.db("Birstodb").collection("users");
     const menuCollection = client.db("Birstodb").collection("menu");
     const reviewCollection = client.db("Birstodb").collection("reviews");
     const cartCollection = client.db("Birstodb").collection("cart");
+    //  users releted api
+    app.post('/users', async (req, res) => {
+      const user = req.body;
+      // insert email if user donest existe
+      // you can do this may ways(1. email uniquse,2.upsert 3.simple checking)
+
+      const query = { email: user.email }
+      const existingUser = await userCollection.findOne(query)
+      if (existingUser) {
+        return res.send({message:'user alrady existe', inserteId: null})
+      }
+
+      const result = await userCollection.insertOne(user);
+      res.send(result)
+    })
+
+
+
 
     app.get('/menu', async (req, res) => {
       const result = await menuCollection.find().toArray();
