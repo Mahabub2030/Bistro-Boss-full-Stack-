@@ -40,25 +40,25 @@ async function run() {
     })
 
     // carts collection
-    app.get('/cart', async (req, res) => {
+    app.get("/cart", async (req, res) => {
       const email = req.query.email;
       const query = { email: email };
       const result = await cartCollection.find(query).toArray();
       res.send(result);
     });
 
-    app.post('/cart', async (req, res) => {
+    app.post("/cart", async (req, res) => {
       const cartItem = req.body;
       const result = await cartCollection.insertOne(cartItem);
       res.send(result);
     });
 
-    app.delete('/cart/:id', async (req, res) => {
+    app.delete("/cart/:id", async (req, res) => {
       const id = req.params.id;
-      const query = { _id: new ObjectId(id) }
+      const query = { _id: new ObjectId(id) };
       const result = await cartCollection.deleteOne(query);
       res.send(result);
-    })
+    });
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
