@@ -139,7 +139,7 @@ async function run() {
       const result = await menuCollection.insertOne(item);
       res.send(result)
     })
-   app.delete("/menu/:id", verifyToken, verifyAdmin, async (req, res) => {
+   app.delete("/menu/:id", verifyToken, verfiyAdmin, async (req, res) => {
      const id = req.params.id;
      const query = { _id: new ObjectId(id) };
      const result = await menuCollection.deleteOne(query);
